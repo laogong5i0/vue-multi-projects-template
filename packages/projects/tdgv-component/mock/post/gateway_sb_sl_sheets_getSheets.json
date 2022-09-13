@@ -1,0 +1,35 @@
+[
+  {
+    "bdsxmc": "zzssyyxgmnsrySbSbbdxxVO.zzssyyxgmnsr",
+    "dzbdbm": "BDA0610611",
+    "dzbdmc": "《增值税纳税申报表(适用于小规模纳税人)》 ",
+    "dzbdstmc": "xgmzzs_BDA0610611.html",
+    "rule": {
+      "expression": "commonFilter()"
+    },
+    "sx": "1",
+    "yxbz": "Y"
+  },
+  {
+    "bdsxmc": "zzssyyxgmnsrySbSbbdxxVO.zzsxgmflzl",
+    "dzbdbm": "BDA0610343",
+    "dzbdmc": "《增值税纳税申报表（适用于增值税小规模纳税人）附列资料》",
+    "dzbdstmc": "xgmzzs_BDA0610343.html",
+    "rule": {
+      "expression": "formVo.gxhVo.flzlBz == 'N'"
+    },
+    "sx": "2",
+    "yxbz": "Y"
+  },
+  {
+    "bdsxmc": "zzssyyxgmnsrySbSbbdxxVO.zzsjmssbmxb",
+    "dzbdbm": "BDA0610758xgm",
+    "dzbdmc": "《增值税减免税申报明细表》",
+    "dzbdstmc": "xgmzzs_BDA0610758xgm.html",
+    "rule": {
+      "expression": "commonFilter()"
+    },
+    "sx": "7",
+    "yxbz": "Y"
+  }
+]

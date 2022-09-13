@@ -1,0 +1,78 @@
+pipeline {
+  agent any
+  stages {
+    stage('检出') {
+      steps {
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: GIT_BUILD_REF]],
+          userRemoteConfigs: [[
+            url: GIT_REPO_URL,
+            credentialsId: CREDENTIALS_ID
+          ]]])
+        }
+      }
+      stage('产物构建') {
+        steps {
+          script {
+            env.TAG_VERSION = new Date().format('yyyyMMdd-HHmmss')
+
+            // 分解参数
+            def envs = env.ENV_INFO.split("\\|")
+            env.DEPLOY_ENV = envs[0]
+            env.PKG_VERSION = env.TAG_VERSION+'-'+env.DEPLOY_ENV
+
+            echo 'PKG_VERSION is: ' + env.PKG_VERSION
+          }
+
+          sh '''ls -la
+pwd
+
+echo '===== 开始解压node_modules ====='
+tar -xf node_modules.tar.gz
+echo '===== 完成解压node_modules ====='
+
+echo '===== 开始 yarn 构建 ====='
+yarn build:site
+echo '===== 完成 yarn 构建 ====='
+
+echo '===== 开始写入Dockerfile ====='
+cat << EOF > Dockerfile
+## 前端公共镜像
+FROM ccr.ccs.tencentyun.com/tdesign-gov/tsf-web-public:0.0.1
+## 添加代码压缩包到镜像中
+ADD dist  /usr/local/openresty/nginx/html/
+WORKDIR /usr/local/openresty/nginx/
+
+CMD ["sh", "-ec", "sh /root/tsf-consul-template-docker/script/start.sh; exec /usr/local/openresty/nginx/sbin/nginx -c /usr/local/openresty/nginx/conf/nginx.conf"]
+EOF
+
+cat Dockerfile
+echo '===== 完成写入Dockerfile ====='
+'''
+        }
+      }
+      stage('制作镜像') {
+        steps {
+          sh '''ls -la
+pwd
+echo '===== 开始构建docker部署镜像 ====='
+docker build -t ${DOCKER_REPO}/${PROJECT_MODEL_NAME}:${PKG_VERSION} .
+docker image ls
+echo '===== 完成构建docker部署镜像 ====='
+'''
+        }
+      }
+      stage('推送镜像') {
+        steps {
+          sh '''ls -la
+pwd
+echo '===== 开始推送docker部署镜像 ====='
+docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD} ${DOCKER_REPO}
+docker push ${DOCKER_REPO}/${PROJECT_MODEL_NAME}:${PKG_VERSION}
+echo '===== 完成推送docker部署镜像 ====='
+'''
+        }
+      }
+    }
+  }
