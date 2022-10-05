@@ -1,23 +1,18 @@
 {
     "private": true,
     "description": "基于 Vue 、JSON Schema 快速构建一个带完整校验的form表单",
-    "repository": "https://github.com/lljj-x/vue-json-schema-form",
-    "homepage": "https://github.com/lljj-x/vue-json-schema-form",
-    "author": "Liu.Jun",
+    "repository": "https://github.com/laogong5i0",
+    "homepage": "https://github.com/laogong5i0",
+    "author": "laogong5i0",
     "workspaces": [
-        "packages/gt4-dzswj-common-fx/*",
         "packages/docs",
-        "packages/projects/*"
+        "packages/*"
     ],
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "docs:dev": "yarn workspace docs dev",
-        "docs:build": "yarn workspace docs build",
-        "lib:build": "yarn lib:gt4-components:watch",
-        "lib:gt4-components:watch": "yarn workspace @fx/gt4-components watch",
-        "lib:gt4-components:build": "yarn workspace @fx/gt4-components build",
-        "lib:gt4-utils:watch": "yarn workspace @fx/gt4-utils watch",
-        "lib:gt4-utils:build": "yarn workspace @fx/gt4-utils build",
+        "lib:tdesign:watch": "yarn workspace @jiguanshu/vue-form-tdesign watch",
+        "lib:tdesign:build": "yarn workspace @jiguanshu/vue-form-tdesign build",
         "dev:proj1": "yarn workspace tdesign-gov-vue-scaffold dev",
         "build:proj1": "yarn workspace tdesign-gov-vue-scaffold build",
         "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 2",

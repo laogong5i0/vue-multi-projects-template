@@ -1,8 +1,0 @@
-{
-  "Response": {
-    "Error": {
-      "Code": "InvalidParameter post",
-      "Message": "参数错误。。personInfoQueryParam_teamId,团队ID不能为空;"
-    }
-  }
-}
